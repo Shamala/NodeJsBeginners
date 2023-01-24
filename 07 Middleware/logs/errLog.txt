@@ -1,0 +1,2 @@
+20230123	11:52:57	94b93bc6-6d3f-4eec-9cee-339cfc406473	Error: Not allowed by CORS
+20230123	11:52:57	cc139c19-cd12-4891-9ca3-d1140268b2de	Error: Not allowed by CORS
