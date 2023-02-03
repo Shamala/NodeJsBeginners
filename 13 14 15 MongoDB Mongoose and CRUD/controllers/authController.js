@@ -16,7 +16,7 @@ const handleLogin = async (req, res) => {
 
   const match = await bcrypt.compare(pwd, foundUser.password);
   if (match) {
-    const roles = Object.values(foundUser.roles);
+    const roles = Object.values(foundUser.roles).filter(Boolean);
     // Create JWTs
     const accessToken = jwt.sign(
       {
@@ -26,7 +26,7 @@ const handleLogin = async (req, res) => {
         },
       },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "5m" }
+      { expiresIn: "10m" }
     );
     const refreshToken = jwt.sign(
       {
@@ -53,10 +53,12 @@ const handleLogin = async (req, res) => {
     const result = await foundUser.save();
 
     console.log(result);
+    console.log(roles);
+
     res.cookie("jwt", refreshToken, {
       httpOnly: true, // not available to javascript, somewhat safer
       sameSite: "None",
-      // secure: true, in production needed for chrome, thunder client doesnt allow
+      secure: true, // in production needed for chrome, thunder client doesnt allow
       maxAge: 24 * 60 * 60 * 1000, // 1 day
     });
     res.json({ accessToken }); // for front end developer

@@ -10,7 +10,7 @@ const handleLogout = async (req, res) => {
   const refreshToken = cookies.jwt;
 
   // Is refresh token in DB(in this case file)
-  const foundUser = await User.findOne({ refreshToken });
+  const foundUser = await User.findOne({ refreshToken }).exec();
 
   console.log(foundUser);
 
@@ -25,7 +25,7 @@ const handleLogout = async (req, res) => {
   const result = await foundUser.save();
 
   console.log(result);
-  res.clearCookie("jwt", { httpOnly: true, sameSite: "None" });
+  res.clearCookie("jwt", { httpOnly: true, sameSite: "None", secure: true });
   return res.sendStatus(204); // secure: true - only serves on https
 };
 
